@@ -1,4 +1,4 @@
-## Notes on Apache Kafta Course
+## Notes on Apache Kafta Course Section 1 - Introduction to Apache Kafka
 
 ### What is a Microservice? 
 * Small autonomous Application
@@ -88,3 +88,40 @@
 * Kafka Broker: Acts as the mediator that manages the communication between producers and consumers, ensuring events are stored durably in Kafka Topics.
 * Topics: These serve as reliable storage for events, ensuring data replication across multiple servers, which enhances fault tolerance.
 * Dynamic Scaling: Consumer microservices can dynamically scale based on workload, emphasizing the importance of parallel processing of events for improved performance.
+
+### Messages and Events in Apache Kafka (DRAM DIAGRAM)
+* In Apache Kafka, an event is an indication that something has happened. For example, a user logging in or a new product being created.
+* When naming conventions, they need to be in a certain order:
+ * In past tense
+ * Start with a Noun, followed by the action performed and end with the word `Event`.
+* For example, `ProductCreatedEvent` or `ProductDeletedEvent`.  
+* The difference between Kafka messages and events are:
+ * A Kafka message is described as an envelope that carries the event data, which can be in various formats like strings, JSON, Avro or even null if necessary. -> anything that can serialised into an array of bytes. -> can be a request for a future action.
+ * A message is the unit of data Kafka stores and transports.
+ * An event represents a completed action.
+ * An event is an application-level concept that represents something that happened in your domain. It is carried inside a Kafka message.
+* The default size for a Kafka message payload is one megabyte. The lecture advises optimising this size to enhance system performance, especially when managing large files (e.g., images, videos) by using links instead of including large files directly.
+* A message consists of three main components:
+ * Message Key: Used for identifying messages, can be of various data types.
+ * Message Value: Contains the event data.
+ * Timestamp: Records when the event occurred.
+ * Headers: Optional key-value pairs that can include extra metadata, such as authorisation details.
+
+### Kafka Topic and Partitions
+* A Kafka topic is defined as a storage area for all published messages.
+* DRAW DIAGRAM
+* Instead of sending messages directly to these microservices, the products microservice publishes events to a specific Kafka topic, which serves as an intermediary.
+* Topic Partitions
+ * Each topic can be divided into multiple partitions.
+ * These partitions are replicated across Kafka servers to ensure data durabililty and availability, even in the event of a server failure.
+ * Partitioning enables consuming microservices to read data in parallel, which enhances throughput and scales application performance.
+ * For example, when a topic has multiple partitions, different instances of a microservice can process events simultaneously, thus improving overall processing speed.
+* Creating topics and managing partitions: 
+ * The number of partitions can be increased after a topic is created, it cannot be decreased.
+ * Each partition acts as a small storage unit, wherein events are stored sequentially in an append-only manner. 
+* Event offsets:
+ *  Each event within a partition is assigned an offset, akin to an index in an array, which uniquely identifies its position within that partition.
+ *  It’s essential to note that once an event is stored in a partition, it is immutable: meaning it cannot be changed, deleted, or updated.
+* Retention policy:
+ * The retention policy of Kafka topics, which retains events for a default period of seven days.
+ * This duration can be adjusted based on specific configuration needs, but the immutable nature of events combined with the retention policy is crucial for maintaining a reliable event log. 
