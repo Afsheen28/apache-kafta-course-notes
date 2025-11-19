@@ -21,3 +21,24 @@
   * This dynamic reassignment helps maintain the availability of the system, preventing bottlenecks and ensuring that operations continue without interruption.
 * Partition Management:
   * Each partition can have different brokers assigned as leaders across topics. This setup prevents a single broker from becoming a bottleneck and distributes the load effectively.
+
+### Appendix A: Run Apache Kafka in a Docker Container (check VS Code in Users/affsi/kafka/docker-compose/docker-compose.yml)
+* Apache Kafka KRaft Configuration:
+ * Node ID: Each broker in the Kafka cluster requires a unique 'node ID.' The instructor demonstrates assigning sequential node IDs (1, 2, 3) to different Kafka server nodes.
+ * Cluster ID: This is a unique identifier for the entire Kafka cluster. The instructor shows how to generate this alphanumeric string using the Apache Kafka command line interface (CLI) and stresses that all Kafka servers in the Docker compose file must share this same cluster ID.
+ * Process Roles: The configuration specifies that the Kafka server will act as both a controller and a broker, handling cluster coordination and metadata, as well as message storage and client communication.
+ * Controller Quorum Voters: The role of controller quorum voters is discussed, which involves maintaining the cluster's state and enabling failover mechanisms. The quorum voters serve as the decision-making body for the Kafka cluster, ensuring its smooth operation.
+ * Quorum Voter Definition: The format for defining each quorum voter is explained, including details such as node ID, hostname, and port number. While suggested port numbers are provided, the instructor mentions they can be adjusted as necessary.
+* Apache Kafka Listeners Configuration:
+ * Listeners Property: This property defines the network interfaces, port numbers, and protocols that producers and consumers use to connect to Kafka brokers.
+ * Types of Listeners:
+  * Plaintext: For unencrypted communication within the Kafka cluster.
+  * Controller: For internal coordination among brokers.
+  * External: Allows external clients to connect to the Kafka broker, typically set on port 9092.
+ * Advertised Listeners: These are the addresses that clients use to connect to Kafka. The plaintext listener is configured for internal communication, while the external listener uses 'localhost' for local connections and can be further customized with environment variables.
+ * Security Protocols: The lecture discusses the 'listener security protocol map' property, which ties listener names to their security protocols. Although all listeners start with 'plaintext' for development, it emphasizes that SSL should be used for production environments to enhance security.
+ * Custom Naming and Configuration: The lecture concludes by covering how to configure custom names for the controller listener and define listeners for inter-broker communication, reinforcing the use of 'plaintext' for internal communications.
+* Kafka Docker Constrainer: Volumes
+ * Volume Definition: It discusses how to define volumes by specifying the source path on the host machine and the target path in the Docker container, allowing Kafka to read and write data directly to the specified directory.
+ * Data Consistency: Emphasizing data consistency and reliability, the instructor stresses the importance of correctly configuring volumes, particularly in a production environment where data integrity is crucial.
+
