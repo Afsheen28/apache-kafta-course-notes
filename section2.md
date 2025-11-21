@@ -41,4 +41,12 @@
 * Kafka Docker Constrainer: Volumes
  * Volume Definition: It discusses how to define volumes by specifying the source path on the host machine and the target path in the Docker container, allowing Kafka to read and write data directly to the specified directory.
  * Data Consistency: Emphasizing data consistency and reliability, the instructor stresses the importance of correctly configuring volumes, particularly in a production environment where data integrity is crucial.
-
+* Stopping Apache Kafka brokers
+ * Avoid losing messages
+ * Avoid errors
+ * Better to stop producers and consumers before shutting down Kafka servers.
+* Stopping Kafka Servers
+ * CTRL + C (Windows) -> will shut down but not gracefully and could lead to problems.
+ * CLI Script -> kafka-server-stop.bat -> graceful shutdown
+ * `contolled.shutdown.enable=true` -> controlled shutdown of Kafka servers enabled in Kafka by default.
+ * If you want to manually configure or control the value of this property, then you can add it to Kafka's `server.properties` file. 
