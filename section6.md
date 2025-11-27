@@ -38,3 +38,7 @@
 ### Kafka Producer configuration properties
 * Following Tutorial
 
+### Creating Kafka Topic
+* Following Tutorial
+
+
